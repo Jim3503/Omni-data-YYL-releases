@@ -1,17 +1,44 @@
 # Omni-data-YYL
 
-Official desktop installers published by Jim3503.
+由 Jim3503 发布的桌面数据工作台，基于 DeepSeek Harness 构建，并非 DeepSeek 官方桌面客户端。
 
-Download the latest stable version from [Releases](https://github.com/Jim3503/Omni-data-YYL-releases/releases/latest):
+## 下载与安装
 
-- Windows x64: `.exe` installer
-- macOS Apple Silicon: `darwin-arm64.dmg`
-- macOS Intel: `darwin-x64.dmg`
+从 [最新正式版](https://github.com/Jim3503/Omni-data-YYL-releases/releases/latest) 选择安装包：
 
-The application checks this repository for published stable releases at startup and every four hours. You can also select **Omni-data-YYL → 检查更新**. Draft and prerelease versions are excluded. Installation happens only after the user confirms; downloads are verified against `SHA256SUMS.txt` before opening.
+| 设备 | 安装包 | 安装方式 |
+| --- | --- | --- |
+| Windows x64 | `win32-x64.exe` | 运行安装程序，可选择安装目录 |
+| Mac Apple Silicon（M 系列） | `darwin-arm64.dmg` | 打开镜像，将应用拖入“应用程序” |
+| Mac Intel | `darwin-x64.dmg` | 打开镜像，将应用拖入“应用程序” |
 
-The installer contains no model credentials, user datasets, or local model weights. On first launch, enter your own DeepSeek API key in the setup page. No separate DSH account login is required. Model settings stay in the local configuration folder; desktop background services inherit your system HTTP/HTTPS proxy unless you explicitly configure a different one. Existing data and configuration remain in the application's user data directory during upgrades.
+当前安装包未取得平台开发者签名或公证，系统可能显示发布者验证提示。安装前可使用 Release 中的 `SHA256SUMS.txt` 核对下载文件。
 
-These initial installers are not developer-signed or notarized. Some optional processing capabilities require local dependencies: FFmpeg for video, Python and model weights for segmentation, and macOS Apple Vision for the current OCR engine.
+## 首次使用
 
-This is an independent application built with DeepSeek Harness, not an official DeepSeek desktop distribution.
+打开 **Omni-data-YYL**，在首次配置页填写自己的 DeepSeek API Key，验证后启动工作台。无需另外注册或登录 DSH 账号。安装包不附带模型密钥、付费额度、用户数据或本机模型权重。
+
+凭据保存在本机配置目录的 `config.env`。应用菜单 **Omni-data-YYL → 打开配置文件夹** 可以定位此目录；其中的 `data/` 是桌面端独立运行时的数据目录。不要把配置文件提交到 GitHub 或粘贴到 issue。
+
+桌面后台优先使用显式配置的 HTTP/HTTPS 代理，否则继承操作系统为模型服务选择的代理。本机工作台连接保持直连。若本机已有源码版在监听工作台端口，桌面端会连接该服务；源码版和桌面独立服务的数据目录各自保留。
+
+## 模型与可选依赖
+
+文字模型由首次配置页连接。图片理解等视觉功能还需要在本机 `config.env` 配置相应的 `VISION_BASE_URL`、`VISION_API_KEY` 与 `VISION_MODEL`，具体可用状态以“更多工具 → 插件与运行条件”为准。
+
+视频处理需要 FFmpeg；图像分割需要对应的 Python 环境和模型权重，不能仅安装桌面应用就视为 SAM/YOLO 已就绪。当前 OCR 引擎使用 macOS Apple Vision；Windows 上应以插件实际报告的可用能力为准。修改模型或处理环境配置后，请先完成当前任务，再退出并重新打开应用。
+
+## 更新
+
+应用菜单 **Omni-data-YYL → 检查更新** 会查询本仓库的最新正式版；应用启动时及每 4 小时也会检查。只有发布者发布的新正式版本会提示更新，普通源码推送、草稿和预发布均不会触发更新。
+
+下载完成后会验证 SHA-256，再由用户确认打开安装包。请在完成或暂停当前任务后安装：Mac 通过 DMG 替换应用，Windows 通过安装程序升级。现有配置和数据目录会保留；更新不需要 GitHub 登录，也不需要向应用提供 GitHub Token。
+
+## 启动与连接排查
+
+- 无法连接模型：检查 API Key、服务额度与网络代理；模型配置与软件账号登录是两个不同的环节。
+- 页面或后台中断：在应用菜单选择 **重试连接**，并通过 **查看启动日志** 查看具体错误。
+- 端口被其他程序占用：按应用提示处理冲突；不要同时启动多份独立后台。
+- 可选插件不可用：查看“插件与运行条件”，补齐该插件实际缺少的依赖。
+
+反馈问题时可附版本号、操作步骤与已脱敏的错误信息。请勿上传模型密钥或未脱敏的数据集。
