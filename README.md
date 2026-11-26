@@ -10,7 +10,7 @@ Download the latest stable version from [Releases](https://github.com/Jim3503/Om
 
 The application checks this repository for published stable releases at startup and every four hours. You can also select **Omni-data-YYL → 检查更新**. Draft and prerelease versions are excluded. Installation happens only after the user confirms; downloads are verified against `SHA256SUMS.txt` before opening.
 
-The installer contains no model credentials, user datasets, or local model weights. Configure your own model credentials in the application's configuration folder before using model features. Existing data and configuration remain in the application's user data directory during upgrades.
+The installer contains no model credentials, user datasets, or local model weights. On first launch, enter your own DeepSeek API key in the setup page. No separate DSH account login is required. Model settings stay in the local configuration folder; desktop background services inherit your system HTTP/HTTPS proxy unless you explicitly configure a different one. Existing data and configuration remain in the application's user data directory during upgrades.
 
 These initial installers are not developer-signed or notarized. Some optional processing capabilities require local dependencies: FFmpeg for video, Python and model weights for segmentation, and macOS Apple Vision for the current OCR engine.
 
